@@ -1,29 +1,13 @@
 function supportsWorkerType() {
-  let supports = false 
-  const tester = {
-    get type() { supports = true}
-  }
-
-  try {
-    new Worker('blob://', tester).terminate()
-  } finally {
-    return supports
-  }
-}
-
-function prepareRunChecker({ timerDelay }) {
-  let lastEvent = Date.now()
-  return {
-    shouldRun() {
-      const result = (Date.now() - lastEvent) > timerDelay
-      if(result) lastEvent = Date.now()
-
-      return result
+    let supports = false
+    const tester = {
+        get type() { supports = true }
     }
-  }
+    try {
+        new Worker('blob://', { type: 'module' }).terminate()
+    } finally {
+        return supports
+    }
 }
 
-export {
-  supportsWorkerType,
-  prepareRunChecker
-}
+export { supportsWorkerType }
